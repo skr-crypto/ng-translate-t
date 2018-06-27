@@ -4,7 +4,7 @@
 	"description": "Angular 1.x module to provide convenient translation directives.",
 	"main": "dist/@tradeshift/ng-translate-t.cjs.js",
 	"scripts": {
-		"build": "tradeshift-scripts build --bundle",
+		"build": ". .build-env; tradeshift-scripts build --bundle",
 		"test": "tradeshift-scripts test",
 		"validate": "tradeshift-scripts validate"
 	},
