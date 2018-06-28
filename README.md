@@ -62,26 +62,43 @@ app
 See the [example](examples/cdn.html) for a demo app.
 
 ## API
-### `$translateProvider.setTranslationFunction(fn: ((text, params, context, shouldEscape): string)): void`
+### `$translateProvider.setTranslationFunction(fn: TranslationFunction): void`
 Replaces the `translationFunction` with `fn`. Defaults to `window.t`.
+
+Types:
+* `TranslationFunction`: `(text, params, context, shouldEscape): string`
+
+Params:
+* `text`: `string` is the extracted string for translation
+* `params`: `{[k: string]: string}` are parameters to pass to do e.g. dynamic pluralization
+* `context`: `string` gives context to translators and allows different translations of the same
+`text` based on context, e.g.
+* `shouldEscape`: `boolean` allows conditional escaping (HTML or other) where needed
 
 ### `t` directive
 Used to replace the contents (`innerHTML`) of an element with translated strings.
 
 Attributes:
-* `[t-[param]]`: `expr` evaluated against `$scope` and passed as `{[param]: $scope.$eval(expr)}`
+* `[t-[param]]`: `string`. Any attribute starting with `t-` will become a `params` key (camelCased),
+with the value read from `$scope` under the corresponding key.
 * `[t-context]`: `string` passed to `translationFunction` as `context`
 * `[t-escape]`: `boolean` passed to `translationFunction` as `shouldEscape`
 
 ```html
 <t>Translatable string</t>
 <div t>Translatable string</div>
-<div t t-param="fromScope">Translatable string with {param} substitution</div>
+
+<!-- passing down $scope.oranges as orangesCount -->
+<div t t-oranges-count="oranges">
+  You have {orangesCount} {orangesCount, plural,
+    one {orange}
+    other {oranges}
+}
+</div>
 ```
 
 ### `[t-attrs]` directive
 Used to replace attributes of an element with translated strings.
-
 
 Attributes:
 * `[t-attrs]`: `string` comma delimited string of attributes to replace with translations.
