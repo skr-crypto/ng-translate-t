@@ -59,10 +59,10 @@ describe('translation directives', () => {
 		});
 
 		it('handles attr params', () => {
-			const { element } = compileAndDigest('<div t t-hello="world">Open my app</div>', {
+			const { element } = compileAndDigest('<div t t-hello-world="world">Open my app</div>', {
 				world: 'hi'
 			});
-			expect(getValue(element)).toEqual(ref('Open my app', { hello: 'hi' }));
+			expect(getValue(element)).toEqual(ref('Open my app', { helloWorld: 'hi' }));
 		});
 
 		it('handles numeric attr params', () => {
