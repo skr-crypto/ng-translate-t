@@ -1,1 +1,1 @@
-export BUILD_GLOBALS='{"angular":"angular","jquery":"jquery"}'
+export BUILD_GLOBALS='{"angular":"angular","jquery":"jQuery"}'
