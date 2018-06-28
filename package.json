@@ -5,6 +5,8 @@
 	"main": "dist/@tradeshift/ng-translate-t.cjs.js",
 	"scripts": {
 		"build": ". .build-env; tradeshift-scripts build --bundle",
+		"format": "tradeshift-scripts format",
+		"lint": "tradeshift-scripts lint",
 		"test": "tradeshift-scripts test",
 		"validate": "tradeshift-scripts validate"
 	},
