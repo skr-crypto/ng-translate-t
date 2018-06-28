@@ -72,7 +72,7 @@ Params:
 * `text`: `string` is the extracted string for translation
 * `params`: `{[k: string]: string}` are parameters to pass to do e.g. dynamic pluralization
 * `context`: `string` gives context to translators and allows different translations of the same
-`text` based on context, e.g.
+`text` based on context, e.g. whether it's for a form or an image
 * `shouldEscape`: `boolean` allows conditional escaping (HTML or other) where needed
 
 ### `t` directive
