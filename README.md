@@ -15,21 +15,26 @@ npm i ng-translate-t
 ```
 
 ## Usage
-```html
-<script>
-angular.module('app', ['ng-translate-t'])
+Register the module
+```js
+// recommended:
+angular.module('app', [require('ng-translate-t')]);
+// UMD / browser use:
+angular.module('app', ['ng-translate-t']);
+```
+
+Configure your translation provider:
+```js
+app
   .config($translateProvider => {
-    //
-    $translateProvider.setTranslationFunction((text, params, context) => {
-      return ;
+    // Set your preferred translation function here:
+    $translateProvider.setTranslationFunction((text, params, context, shouldEscape) => {
+      return '42';
     });
   });
-</script>
-
-<div ng-app="app">
-  <div t>Text to translate</div>
-</div>
 ```
+
+See the [example](examples/cdn.html) for a demo app.
 
 ## License
 AAAAAAAAAAA
