@@ -7,6 +7,7 @@
 		"build": ". .build-env; tradeshift-scripts build --bundle",
 		"format": "tradeshift-scripts format",
 		"lint": "tradeshift-scripts lint",
+		"precommit": "tradeshift-scripts precommit",
 		"test": "tradeshift-scripts test",
 		"validate": "tradeshift-scripts validate"
 	},
