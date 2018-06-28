@@ -59,8 +59,10 @@ describe('translation directives', () => {
 		});
 
 		it('handles attr params', () => {
-			const { element } = compileAndDigest('<div t t-param="foo">Open my app</div>', { foo: 'bar' });
-			expect(getValue(element)).toEqual(ref('Open my app', { param: 'bar' }));
+			const { element } = compileAndDigest('<div t t-hello="world">Open my app</div>', {
+				world: 'hi'
+			});
+			expect(getValue(element)).toEqual(ref('Open my app', { hello: 'hi' }));
 		});
 
 		it('handles numeric attr params', () => {
@@ -69,12 +71,14 @@ describe('translation directives', () => {
 		});
 
 		it('handles undefined attrs', () => {
-			const { element } = compileAndDigest('<div t t-param="foo">Open my app</div>', { });
+			const { element } = compileAndDigest('<div t t-param="foo">Open my app</div>', {});
 			expect(getValue(element)).toEqual(ref('Open my app', { param: '' }));
-		})
+		});
 
 		it('handles scope updates', () => {
-			const { element, scope } = compileAndDigest('<div t t-param="foo">Open my app</div>', { foo: 'bar' });
+			const { element, scope } = compileAndDigest('<div t t-param="foo">Open my app</div>', {
+				foo: 'bar'
+			});
 			expect(getValue(element)).toEqual(ref('Open my app', { param: 'bar' }));
 			scope.foo = 'baz';
 			scope.$apply();
@@ -103,7 +107,9 @@ describe('translation directives', () => {
 		});
 
 		it('gracefully handles double compilation', () => {
-			const { element, scope } = compileAndDigest('<div t t-param="foo">Open my app</div>', { foo: 'bar' });
+			const { element, scope } = compileAndDigest('<div t t-param="foo">Open my app</div>', {
+				foo: 'bar'
+			});
 			$translate.registerBodyTranslation(scope, element, {});
 			scope.$apply();
 		});
