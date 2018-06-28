@@ -124,11 +124,4 @@ describe('translation directives', () => {
 			scope.$apply();
 		});
 	});
-
-	describe('odd stuff', () => {
-		it('leaves gui attr alone', () => {
-			// No idea what this does:
-			compileAndDigest('<div t>Open my app <span gui="wat"></span></div>');
-		});
-	});
 });

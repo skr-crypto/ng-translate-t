@@ -45,10 +45,7 @@ export default function $translateProvider() {
 
 							while (this.attributes.length > 0) {
 								var attrName = this.attributes[0].name;
-
-								if (attrName !== 'gui') {
-									attrs[attrName] = child.attr(attrName);
-								}
+								attrs[attrName] = child.attr(attrName);
 
 								this.removeAttribute(attrName);
 							}
@@ -137,7 +134,6 @@ export default function $translateProvider() {
 					if (element.data('translatedbody')) {
 						return;
 					}
-
 					element.data('translatedbody', true);
 
 					var shouldEscape = 'tEscape' in attrs;
