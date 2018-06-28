@@ -19,7 +19,7 @@ method.
 The directives extract the `text`, dynamic `params`, `context` and `shouldEscape`
 from the [attributes](#api).
 
-## Contents
+## Table of contents
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -61,7 +61,13 @@ app
 See the [example](examples/cdn.html) for a demo app.
 
 ## API
+### `$translateProvider.setTranslationFunction(fn: ((text, params, context, shouldEscape): string)): void`
+Replaces the `translationFunction` with `fn`. Defaults to `window.t`.
+
 ### `t` directive
+Used to replace the contents (`innerHTML`) of an element with translated strings.
+
+Attributes:
 * `[t-[param]]`: `expr` evaluated against `$scope` and passed as `{[param]: $scope.$eval(expr)}`
 * `[t-context]`: `string` passed to `translationFunction` as `context`
 * `[t-escape]`: `boolean` passed to `translationFunction` as `shouldEscape`
@@ -69,10 +75,14 @@ See the [example](examples/cdn.html) for a demo app.
 ```html
 <t>Translatable string</t>
 <div t>Translatable string</div>
-<div t t-param="fromScope">Translatable string with {fromScope}</div>
+<div t t-param="fromScope">Translatable string with {param} substitution</div>
 ```
 
 ### `[t-attrs]` directive
+Used to replace attributes of an element with translated strings.
+
+
+Attributes:
 * `[t-attrs]`: `string` comma delimited string of attributes to replace with translations.
 * `[t-context]`: `string` passed to `translationFunction` as `context`
 * `[t-escape]`: `boolean` passed to `translationFunction` as `shouldEscape`
