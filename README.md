@@ -53,6 +53,7 @@ app
   .config($translateProvider => {
     // Set your preferred translation function here:
     $translateProvider.setTranslationFunction((text, params, context, shouldEscape) => {
+      // Our translators are lazy, so we translate everything to "42".
       return '42';
     });
   });
