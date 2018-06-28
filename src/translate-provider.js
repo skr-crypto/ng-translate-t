@@ -32,13 +32,12 @@ export default function $translateProvider() {
 
 				registerTranslation: function(scope, text, params, element, context, attr, shouldEscape) {
 					var values = {};
-					let attrCount;
 					let attrMap;
 
 					// Load an attribute map of ref -> attrs. Used for replacing attributes into tags in the right order
 					// given translation. Refs are something that the backend stores to allow us to change attributes
 					// on tags without triggering new translations.
-					var loadAttributeMap = function(node) {
+					var loadAttributeMap = function(node, ref) {
 						node.children().each(function() {
 							let child = $(this);
 							let attrs = {};
@@ -50,11 +49,10 @@ export default function $translateProvider() {
 								this.removeAttribute(attrName);
 							}
 
-							var ref = attrCount++;
-							child.attr('ref', ref);
+							child.attr('ref', ref++);
 							attrMap['' + ref] = attrs;
 
-							loadAttributeMap(child);
+							loadAttributeMap(child, ref);
 						});
 					};
 
@@ -73,7 +71,6 @@ export default function $translateProvider() {
 					var update = function() {
 						var translation;
 						attrMap = {};
-						attrCount = 1;
 
 						if (attr) {
 							translation = getTranslation(text, values, context);
@@ -81,7 +78,7 @@ export default function $translateProvider() {
 						} else {
 							const original = $('<div>' + text + '</div>');
 
-							loadAttributeMap(original);
+							loadAttributeMap(original, 1);
 
 							// innerHTML does not handle br's too well (doesn't close them)
 							var keyText = original.html().replace(/<br ref="([0-9]+)">/g, '<br ref="$1" />');
@@ -91,10 +88,11 @@ export default function $translateProvider() {
 							textarea.innerHTML = keyText;
 							var newKeyText = textarea.value.replace(/(\S|\b)\s+(\S|\b)/g, '$1 $2').trim();
 							translation = getTranslation(newKeyText, values, context, shouldEscape);
+
 							if (original.children().length > 0) {
 								// Do some voodoo to preserve angular bindings
 								element.html('');
-								const newElm = $('<span>'+translation+'</span>');
+								const newElm = $('<span>' + translation + '</span>');
 								// Fill in attributes before compiling
 								fillInAttributes(newElm);
 								// Recompile the translation stuff with the scope
@@ -110,8 +108,10 @@ export default function $translateProvider() {
 						}
 					};
 
+					// Watch and deserialize scope values:
 					params.forEach(function(p) {
 						values[p.param] = scope[p.expr] === undefined ? '' : scope[p.expr];
+
 						scope.$watch(p.expr, function(value) {
 							values[p.param] = value === undefined ? '' : value;
 							if (/^([1-9][0-9]*|0)$/.test(values[p.param])) {
@@ -163,4 +163,4 @@ export default function $translateProvider() {
 			};
 		}
 	];
-};
+}
