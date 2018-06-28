@@ -89,9 +89,9 @@ describe('translation directives', () => {
 
 	describe('t-attrs', () => {
 		it('replaces element attributes', () => {
-			const element = compileAndDigest('<div t-attrs="foo,bar" foo="Hi" bar="Baz"></div>');
-			expect(element.attr('foo')).toEqual(ref('Hi', {}));
-			expect(element.attr('bar')).toEqual(ref('Baz', {}));
+			const element = compileAndDigest('<div t-context="context" t-attrs="foo,bar" foo="Hi" bar="Baz"></div>');
+			expect(element.attr('foo')).toEqual(ref('Hi', {}, 'context'));
+			expect(element.attr('bar')).toEqual(ref('Baz', {}, 'context'));
 		});
 	});
 });
