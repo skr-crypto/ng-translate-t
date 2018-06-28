@@ -81,7 +81,7 @@ export default function $translateProvider() {
 
 						if (attr) {
 							translation = getTranslation(text, values, context);
-							element.setAttribute(attr, translation);
+							element.attr(attr, translation);
 						} else {
 							const original = $('<div>' + text + '</div>');
 
@@ -95,8 +95,7 @@ export default function $translateProvider() {
 							textarea.innerHTML = keyText;
 							var newKeyText = textarea.value.replace(/(\S|\b)\s+(\S|\b)/g, '$1 $2').trim();
 							translation = getTranslation(newKeyText, values, context, shouldEscape);
-
-							if (original.children.length > 0) {
+							if (original.children().length > 0) {
 								// Do some voodoo to preserve angular bindings
 								element.html('');
 								const newElm = $('<span>'+translation+'</span>');
@@ -110,7 +109,7 @@ export default function $translateProvider() {
 									element[0].appendChild(newElm[0].childNodes[0]);
 								}
 							} else {
-								element.innerHTML = translation;
+								element[0].innerHTML = translation;
 							}
 						}
 					};
@@ -155,12 +154,12 @@ export default function $translateProvider() {
 					);
 				},
 				registerAttrTranslation: function(scope, element, attrs, attr) {
-					var params = this.getParams(attrs);
-					var dataId = 'attr-text-' + attr;
+					const params = this.getParams(attrs);
+					const dataId = 'attr-text-' + attr;
 
-					var text = element.data(dataId);
+					let text = element.data(dataId);
 					if (!text) {
-						text = element.getAttribute(attr);
+						text = element.attr(attr);
 						element.data(dataId, text);
 					}
 
