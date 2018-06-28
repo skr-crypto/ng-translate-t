@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 export default function $translateProvider() {
-	let getTranslation = global.t;
+	let getTranslation = window.t;
 	this.setTranslationFunction = lookupFunction => {
 		getTranslation = lookupFunction;
 	};
