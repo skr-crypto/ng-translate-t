@@ -4,16 +4,30 @@
 [![semantic-release][semantic-release-badge]][semantic-release]
 [![Commitizen friendly][commitizen-badge]][commitizen]
 
-Angular module to provide convenient translation directives.
+Angular 1.x module to provide convenient translation directives.
 
+## The problem
+Using translations across views in Angular apps is tedious and error prone with
+`$scope` variables, and angular specific with existing libraries like
+`angular-translate`.
+
+## This solution
+We provide configurable directives, `t` and `t-attrs`, focusing on extracting
+the metadata for the translations, and allowing you to specify your own lookup
+method.
+
+The directives extract the `text`, dynamic `params`, `context` and `shouldEscape`
+from the [attributes](#api).
+
+## Contents
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [ng-translate-t](#ng-translate-t)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [License](#license)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API](#api)
+- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -27,7 +41,7 @@ npm i ng-translate-t
 ## Usage
 Register the module
 ```js
-// recommended:
+// recommended w/ commonJS module:
 angular.module('app', [require('ng-translate-t')]);
 // UMD / browser use:
 angular.module('app', ['ng-translate-t']);
@@ -45,6 +59,28 @@ app
 ```
 
 See the [example](examples/cdn.html) for a demo app.
+
+## API
+### `t` directive
+* `[t-[param]]`: `expr` evaluated against `$scope` and passed as `{[param]: $scope.$eval(expr)}`
+* `[t-context]`: `string` passed to `translationFunction` as `context`
+* `[t-escape]`: `boolean` passed to `translationFunction` as `shouldEscape`
+
+```html
+<t>Translatable string</t>
+<div t>Translatable string</div>
+<div t t-param="fromScope">Translatable string with {fromScope}</div>
+```
+
+### `[t-attrs]` directive
+* `[t-attrs]`: `string` comma delimited string of attributes to replace with translations.
+* `[t-context]`: `string` passed to `translationFunction` as `context`
+* `[t-escape]`: `boolean` passed to `translationFunction` as `shouldEscape`
+
+```html
+<div t-attrs="title" title="Translatable string"></t>
+<img t-attrs="alt,title" title="Translated title" alt="Translated alt" src="#" />
+```
 
 ## License
 ISC. Copyright (c) 2018, [Tradeshift](https://github.com/Tradeshift).
