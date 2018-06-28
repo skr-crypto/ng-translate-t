@@ -6,6 +6,16 @@
 
 Angular module to provide convenient translation directives.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [ng-translate-t](#ng-translate-t)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
 ## Installation
@@ -37,7 +47,7 @@ app
 See the [example](examples/cdn.html) for a demo app.
 
 ## License
-AAAAAAAAAAA
+ISC. Copyright (c) 2018, [Tradeshift](https://github.com/Tradeshift).
 
 [coverage-badge]: https://img.shields.io/badge/coverage-100%25-brightgreen.svg
 [semantic-release]: https://github.com/semantic-release/semantic-release
