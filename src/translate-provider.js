@@ -13,7 +13,6 @@ export default function $translateProvider() {
 				getParams: function(attrs) {
 					var params = [];
 					Object.keys(attrs).forEach(function(key) {
-						const val = attrs[key];
 						if (key === 't' || key === 'tContext' || key === 'tAttrs') {
 							return;
 						}
@@ -32,17 +31,17 @@ export default function $translateProvider() {
 				},
 
 				registerTranslation: function(scope, text, params, element, context, attr, shouldEscape) {
-					var values = {},
-						attrCount,
-						attrMap;
+					var values = {};
+					let attrCount;
+					let attrMap;
 
 					// Load an attribute map of ref -> attrs. Used for replacing attributes into tags in the right order
 					// given translation. Refs are something that the backend stores to allow us to change attributes
 					// on tags without triggering new translations.
 					var loadAttributeMap = function(node) {
 						node.children().each(function() {
-							var child = $(this),
-								attrs = {};
+							let child = $(this);
+							let attrs = {};
 
 							while (this.attributes.length > 0) {
 								var attrName = this.attributes[0].name;
