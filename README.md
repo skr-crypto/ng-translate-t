@@ -78,6 +78,9 @@ Params:
 ### `t` directive
 Used to replace the contents (`innerHTML`) of an element with translated strings.
 
+If the element has children, their attributes are replaced with a `ref="1"` count
+(in depth-first order), in order to preserve translation hashes when e.g. style attributes change.
+
 Attributes:
 * `[t-[param]]`: `string`. Any attribute starting with `t-` will become a `params` key (camelCased),
 with the value read from `$scope` under the corresponding key.
