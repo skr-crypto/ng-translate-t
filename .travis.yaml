@@ -8,7 +8,7 @@ notifications:
 node_js:
   - '8'
 script: npm run validate
-after_success: node src travis-after-success
+after_success: npm run after-success
 branches:
   only:
     - master
