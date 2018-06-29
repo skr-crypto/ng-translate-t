@@ -5,7 +5,7 @@
 	"main": "dist/@tradeshift/ng-translate-t.cjs.js",
 	"scripts": {
 		"after-success": "tradeshift-scripts travis-after-success",
-		"build": ". .build-env; tradeshift-scripts build --bundle",
+		"build": ". ./.build-env && tradeshift-scripts build --bundle",
 		"format": "tradeshift-scripts format",
 		"lint": "tradeshift-scripts lint",
 		"precommit": "tradeshift-scripts precommit",
