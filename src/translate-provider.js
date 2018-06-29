@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import { loadAttributeMap, fillInAttributes } from './dom-utils';
 
 export default function $translateProvider() {
 	let getTranslation = window.t;
@@ -32,78 +33,44 @@ export default function $translateProvider() {
 
 				registerTranslation: function(scope, text, params, element, context, attr, shouldEscape) {
 					var values = {};
-					let attrMap;
-
-					// Load an attribute map of ref -> attrs. Used for replacing attributes into tags in the right order
-					// given translation. Refs are something that the backend stores to allow us to change attributes
-					// on tags without triggering new translations.
-					var loadAttributeMap = function(node, ref) {
-						node.children().each(function() {
-							let child = $(this);
-							let attrs = {};
-
-							while (this.attributes.length > 0) {
-								var attrName = this.attributes[0].name;
-								attrs[attrName] = child.attr(attrName);
-
-								this.removeAttribute(attrName);
-							}
-
-							child.attr('ref', ref++);
-							attrMap['' + ref] = attrs;
-
-							loadAttributeMap(child, ref);
-						});
-					};
-
-					// Fills in attributes from the map in the right order in the translated text.
-					var fillInAttributes = function(node) {
-						Object.keys(attrMap).forEach(function(ref) {
-							const attrs = attrMap[ref];
-							const refNode = node.find('[ref=' + ref + ']');
-							Object.keys(attrs).forEach(function(name) {
-								refNode.attr(name, attrs[name]);
-							});
-							refNode.removeAttr('ref');
-						});
-					};
 
 					var update = function() {
 						var translation;
-						attrMap = {};
 
 						if (attr) {
 							translation = getTranslation(text, values, context);
 							element.attr(attr, translation);
 						} else {
 							const original = $('<div>' + text + '</div>');
+							translation = getTranslation(text, values, context, shouldEscape);
 
-							loadAttributeMap(original, 1);
+							if (original.children().length === 0) {
+								element[0].innerHTML = translation;
+								return;
+							}
+
+							const attrMap = loadAttributeMap(original[0], 1);
 
 							// innerHTML does not handle br's too well (doesn't close them)
-							var keyText = original.html().replace(/<br ref="([0-9]+)">/g, '<br ref="$1" />');
+							const keyText = original.html().replace(/<br ref="([0-9]+)">/g, '<br ref="$1" />');
 
 							// HTML characters are encoded using .html(), so we need to decode them
-							var textarea = document.createElement('textarea');
+							const textarea = document.createElement('textarea');
 							textarea.innerHTML = keyText;
-							var newKeyText = textarea.value.replace(/(\S|\b)\s+(\S|\b)/g, '$1 $2').trim();
+							const newKeyText = textarea.value.replace(/(\S|\b)\s+(\S|\b)/g, '$1 $2').trim();
 							translation = getTranslation(newKeyText, values, context, shouldEscape);
 
-							if (original.children().length > 0) {
-								// Do some voodoo to preserve angular bindings
-								element.html('');
-								const newElm = $('<span>' + translation + '</span>');
-								// Fill in attributes before compiling
-								fillInAttributes(newElm);
-								// Recompile the translation stuff with the scope
-								$compile(newElm)(scope);
+							// Do some voodoo to preserve angular bindings
+							element.html('');
+							const newElm = $('<span>' + translation + '</span>');
+							// Fill in attributes before compiling
+							fillInAttributes(newElm, attrMap);
+							// Recompile the translation stuff with the scope
+							$compile(newElm)(scope);
 
-								// Move all children - preserving bindings.
-								while (newElm[0].childNodes.length > 0) {
-									element[0].appendChild(newElm[0].childNodes[0]);
-								}
-							} else {
-								element[0].innerHTML = translation;
+							// Move all children - preserving bindings.
+							while (newElm[0].childNodes.length > 0) {
+								element[0].appendChild(newElm[0].childNodes[0]);
 							}
 						}
 					};
