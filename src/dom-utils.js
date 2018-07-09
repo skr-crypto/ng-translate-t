@@ -7,7 +7,7 @@ export const loadAttributeMap = (node, ref) => {
 		const attrs = {};
 
 		while (child.attributes.length > 0) {
-			var attrName = child.attributes[0].name;
+			const attrName = child.attributes[0].name;
 			attrs[attrName] = child.getAttribute(attrName);
 
 			child.removeAttribute(attrName);
@@ -25,7 +25,7 @@ export const loadAttributeMap = (node, ref) => {
 export const fillInAttributes = ($node, attributes) => {
 	Object.keys(attributes).forEach(ref => {
 		const attrs = attributes[ref];
-		const $refNode = $node.find('[ref="' + ref + '"]');
+		const $refNode = $node.find(`[ref="${ref}"]`);
 		Object.keys(attrs).forEach(name => {
 			$refNode.attr(name, attrs[name]);
 		});

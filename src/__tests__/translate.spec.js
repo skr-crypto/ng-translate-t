@@ -11,8 +11,7 @@ const getValue = el => {
 	// fix html encoding:
 	ta.innerHTML = el.html();
 	// fix quote escapes:
-	const unescaped = ta.value.replace(/"\\"/g, '\\"').replace(/\\""/g, '\\"');
-	return unescaped;
+	return ta.value.replace(/"\\"/g, '\\"').replace(/\\""/g, '\\"');
 };
 
 const ref = (text, params, context) => JSON.stringify({ text, params, context });

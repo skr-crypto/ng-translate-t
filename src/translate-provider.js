@@ -11,8 +11,8 @@ export default function $translateProvider() {
 		'$compile',
 		function($compile) {
 			return {
-				getParams: function(attrs) {
-					var params = [];
+				getParams(attrs) {
+					const params = [];
 					Object.keys(attrs).forEach(function(key) {
 						if (key === 't' || key === 'tContext' || key === 'tAttrs') {
 							return;
@@ -31,17 +31,17 @@ export default function $translateProvider() {
 					return params;
 				},
 
-				registerTranslation: function(scope, text, params, element, context, attr, shouldEscape) {
-					var values = {};
+				registerTranslation(scope, text, params, element, context, attr, shouldEscape) {
+					const values = {};
 
-					var update = function() {
-						var translation;
+					const update = () => {
+						let translation;
 
 						if (attr) {
 							translation = getTranslation(text, values, context);
 							element.attr(attr, translation);
 						} else {
-							const original = $('<div>' + text + '</div>');
+							const original = $(`<div>${text}</div>`);
 							translation = getTranslation(text, values, context, shouldEscape);
 
 							if (original.children().length === 0) {
@@ -62,7 +62,7 @@ export default function $translateProvider() {
 
 							// Do some voodoo to preserve angular bindings
 							element.html('');
-							const newElm = $('<span>' + translation + '</span>');
+							const newElm = $(`<span>${translation}</span>`);
 							// Fill in attributes before compiling
 							fillInAttributes(newElm, attrMap);
 							// Recompile the translation stuff with the scope
@@ -90,9 +90,9 @@ export default function $translateProvider() {
 
 					update();
 				},
-				registerBodyTranslation: function(scope, element, attrs) {
-					var params = this.getParams(attrs);
-					var text = element.data('body-text');
+				registerBodyTranslation(scope, element, attrs) {
+					const params = this.getParams(attrs);
+					let text = element.data('body-text');
 					if (!text) {
 						text = element.html();
 						element.data('body-text', text);
@@ -103,7 +103,7 @@ export default function $translateProvider() {
 					}
 					element.data('translatedbody', true);
 
-					var shouldEscape = 'tEscape' in attrs;
+					const shouldEscape = 'tEscape' in attrs;
 
 					this.registerTranslation(
 						scope,
@@ -115,9 +115,9 @@ export default function $translateProvider() {
 						shouldEscape
 					);
 				},
-				registerAttrTranslation: function(scope, element, attrs, attr) {
+				registerAttrTranslation(scope, element, attrs, attr) {
 					const params = this.getParams(attrs);
-					const dataId = 'attr-text-' + attr;
+					const dataId = `attr-text-${attr}`;
 
 					let text = element.data(dataId);
 					if (!text) {

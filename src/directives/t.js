@@ -4,7 +4,7 @@ export default [
 		return {
 			terminal: true,
 			restrict: 'AECM',
-			link: function(scope, element, attrs) {
+			link(scope, element, attrs) {
 				$translate.registerBodyTranslation(scope, element, attrs);
 			}
 		};
