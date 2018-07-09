@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>NG Translate directives</title>
+</head>
+<body>
+<div ng-app="app">
+	<p>My app is even more amazing with <span t>Text to translate</span></p>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.2/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script src="../dist/@tradeshift/ng-translate-t.umd.js"></script>
+<script>
+angular.module('app', ['ng-translate-t'])
+  .config($translateProvider => {
+    // Set your preferred translation function here:
+    $translateProvider.setTranslationFunction((text, params, context, shouldEscape) => {
+      // Our translators are lazy, so we translate everything to "42".
+      return '42';
+    });
+  });
+</script>
+</body>
+</html>

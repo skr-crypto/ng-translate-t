@@ -1,0 +1,39 @@
+{
+	"name": "@tradeshift/ng-translate-t",
+	"version": "0.0.0-semantically-released",
+	"description": "Angular 1.x module to provide convenient translation directives.",
+	"main": "dist/@tradeshift/ng-translate-t.cjs.js",
+	"scripts": {
+		"after-success": "tradeshift-scripts travis-after-success",
+		"build": ". ./.build-env && tradeshift-scripts build --bundle",
+		"format": "tradeshift-scripts format",
+		"lint": "tradeshift-scripts lint",
+		"precommit": "tradeshift-scripts precommit",
+		"test": "tradeshift-scripts test",
+		"validate": "tradeshift-scripts validate"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tradeshift/ng-translate-t.git"
+	},
+	"keywords": [
+		"angularjs",
+		"translation"
+	],
+	"author": "Jacob Wejendorp <jwe@tradeshift.com>",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/tradeshift/ng-translate-t/issues"
+	},
+	"homepage": "https://github.com/tradeshift/ng-translate-t#readme",
+	"devDependencies": {
+		"angular": "^1.7.2",
+		"angular-mocks": "^1.7.2",
+		"jquery": "^3.3.1",
+		"tradeshift-scripts": "^2.1.0"
+	},
+	"peerDependencies": {
+		"angular": "1",
+		"jquery": "*"
+	}
+}
