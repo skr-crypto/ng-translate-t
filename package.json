@@ -3,6 +3,9 @@
 	"version": "0.0.0-semantically-released",
 	"description": "Angular 1.x module to provide convenient translation directives.",
 	"main": "dist/@tradeshift/ng-translate-t.cjs.js",
+	"publishConfig": {
+		"access": "public"
+	},
 	"scripts": {
 		"after-success": "tradeshift-scripts travis-after-success",
 		"build": ". ./.build-env && tradeshift-scripts build --bundle",
