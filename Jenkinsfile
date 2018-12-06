@@ -25,67 +25,47 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Setup nodejs') {
+            steps {
+                useNodeJS()
+            }
+        }
+        stage('npm install') {
+            steps {
+                sh 'which node; node -v'
+                sh 'which npm; npm -v'
+                sh 'npm install'
+            }
+        }
 
         stage('Build and test') {
-            when {
-                anyOf {
-                    branch 'master'
-                    changeRequest()
-                }
-            }
-            environment {
-                GITHUB_CREDS = credentials 'frontend-key'
-                NPM_UPLOAD_TOKEN = credentials 'jenkins-public-npm-rw-token'
-                NPM_TOKEN = credentials 'jenkins-npm-ro-npm-token'
-            }
             steps {
-                sh '''#!/bin/bash
-                ./jenkins.sh | tee build.log; exit ${PIPESTATUS[0]}
-                '''
-                script {
-                  if (env.CHANGE_ID) {
-                    def output = sh(script: "sed -n '/Analysis of/,/echo installing semantic-release/p' build.log \
-                      | sed -e 's/^\\[release\\]\\s*//' -e 's/\\[Semantic release\\]:\\s*//' \
-                      | grep -v 'Call plugin' \
-                      | head -n -1", returnStdout: true).trim()
-
-                    if (output) {
-                      def prefix = '*Semantic release: \
-                      ([Commit conventions](https://github.com/conventional-changelog-archived-repos/conventional-changelog-angular/blob/master/convention.md))*\n\n'
-                      // Clean up existing release comments
-                      for (comment in pullRequest.comments) {
-                        if (comment.body.startsWith(prefix)) {
-                          comment.delete()
-                        }
-                      }
-                      pullRequest.comment(prefix + output)
-
-                      // Set commit status
-                      def releaseType = output.split('\n').findAll{ l -> l.contains('Analysis') }.join('').replaceFirst(/(.*): /, '')
-                      githubNotify(status: 'SUCCESS', context: 'semantic-release', description: releaseType)
-                    }
-                  }
-                }
+                sh "npm run validate"
             }
             post {
                 always {
+                    sh '''#!/bin/bash
+                    # Hack for absolute paths in lcov files:
+                    if [ -f  coverage/lcov.info ]; then
+                        sed -i "s|SF:${APP_DIR}|SF:${BUILD_DIR}/|g" coverage/lcov.info
+                    fi
+                    '''
                     checkstyle pattern:'build/checkstyle/*.xml', unstableTotalAll: '0', usePreviousBuildAsReference: true
                     junit testResults: 'build/junit/*.xml', allowEmptyResults: true
                 }
             }
         }
 
-        stage('Sonarqube') {
-            when {
-                anyOf {
-                    branch 'master'
-                    changeRequest()
-                }
-            }
+        stage('Semantic release') {
             environment {
-                SONAR_HOME = tool 'Scanner'
-                GITHUB_TOKEN = credentials 'sonarqube-integration'
+                NPM_TOKEN = credentials 'jenkins-public-npm-rw-token'
             }
+            steps {
+                semanticVersion()
+            }
+        }
+
+        stage('Sonarqube') {
             steps {
                 sonarqube(extraOptions: '\
                     -Dsonar.exclusions="build/**/*, coverage/**/*, dist/**/*" \
