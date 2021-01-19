@@ -1,0 +1,14 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ng-translate-t
+  description: Convenient directives for angular 1.x translations
+  annotations:
+    github.com/project-slug: tradeshift/ng-translate-t
+  tags:
+    - npm
+spec:
+  type: library
+  lifecycle: production
+  owner: group:app-enablement
