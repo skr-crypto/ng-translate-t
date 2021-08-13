@@ -30,10 +30,10 @@
 	},
 	"homepage": "https://github.com/tradeshift/ng-translate-t#readme",
 	"devDependencies": {
-		"angular": "^1.7.2",
-		"angular-mocks": "^1.7.2",
+		"angular": "^1.8.2",
+		"angular-mocks": "^1.8.2",
 		"jquery": "^3.3.1",
-		"tradeshift-scripts": "^2.1.0"
+		"tradeshift-scripts": "^2.8.0"
 	},
 	"peerDependencies": {
 		"angular": "1",
