@@ -16,7 +16,6 @@ pipeline {
         stage('Initialise PR') {
             when { changeRequest() }
             steps {
-                githubNotify(status: 'PENDING', context: 'sonarqube', description: 'Not analysed')
                 githubNotify(status: 'PENDING', context: 'semantic-release', description: 'Not analysed')
             }
         }
