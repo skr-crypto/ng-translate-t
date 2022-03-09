@@ -29,9 +29,13 @@
 		"url": "https://github.com/tradeshift/ng-translate-t/issues"
 	},
 	"homepage": "https://github.com/tradeshift/ng-translate-t#readme",
+	"overrides": {
+		"angular": "npm:@tradeshift/xlts.angular@^1.8.5",
+		"angular-mocks": "npm:@tradeshift/xlts.angular-mocks@^1.8.5"
+	},
 	"devDependencies": {
-		"angular": "^1.8.2",
-		"angular-mocks": "^1.8.2",
+		"angular": "npm:@tradeshift/xlts.angular@^1.8.5",
+		"angular-mocks": "npm:@tradeshift/xlts.angular-mocks@^1.8.5",
 		"jquery": "^3.3.1",
 		"tradeshift-scripts": "^2.8.0"
 	},

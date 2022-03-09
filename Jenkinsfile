@@ -10,7 +10,7 @@
 pipeline {
     agent any // Put node restrictions here, if any
     triggers {
-        issueCommentTrigger('^retest$')
+        issueCommentTrigger('^(retest|npm publish)$')
     }
     stages {
         stage('Initialise PR') {
@@ -53,6 +53,21 @@ pipeline {
                     junit testResults: 'build/junit/*.xml', allowEmptyResults: true
                 }
             }
+        }
+
+	stage('npm publish') {
+            when {
+                changeRequest()
+                expression { return pullRequest.comments.any { it.body == 'npm publish' } }
+            }
+            environment {
+                NPM_TOKEN = credentials 'tradeshiftci-npm-readwrite-token'
+                NPM_CONFIG_REGISTRY = 'https://npm.pkg.github.com/'
+            }
+            steps {
+                npmPublish()
+            }
+
         }
 
         stage('Semantic release') {
