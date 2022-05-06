@@ -72,7 +72,7 @@ pipeline {
 
         stage('Semantic release') {
             environment {
-                NPM_TOKEN = credentials 'jenkins-public-npm-rw-token'
+                NPM_TOKEN = credentials 'tradeshiftci-npm-readwrite-token'
             }
             steps {
                 semanticVersion()
