@@ -9,4 +9,6 @@ const translate = angular.module('ng-translate-t', [])
 	.directive('t', tDirective)
 	.directive('tAttrs', tAttrsDirective);
 
+console.log('can I be published');
+
 export default translate.name;
